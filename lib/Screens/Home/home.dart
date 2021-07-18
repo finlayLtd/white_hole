@@ -703,42 +703,40 @@ class _HomePageState extends State<HomePage> {
           bottomNavigationBar: ValueListenableBuilder(
               valueListenable: playerExpandProgress,
               builder: (BuildContext context, double value, Widget child) {
-                return SafeArea(
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 100),
-                    height: 60 *
-                        (MediaQuery.of(context).size.height - value) /
-                        (MediaQuery.of(context).size.height - 76),
-                    child: SalomonBottomBar(
-                      currentIndex: _selectedIndex,
-                      onTap: (index) {
-                        _onItemTapped(index);
-                      },
-                      items: [
-                        /// Home
-                        SalomonBottomBarItem(
-                          icon: Icon(Icons.home_rounded),
-                          title: Text("Home"),
-                          selectedColor: Theme.of(context).accentColor,
-                        ),
+                return AnimatedContainer(
+                  duration: Duration(milliseconds: 100),
+                  height: 60 *
+                      (MediaQuery.of(context).size.height - value) /
+                      (MediaQuery.of(context).size.height - 76),
+                  child: SalomonBottomBar(
+                    currentIndex: _selectedIndex,
+                    onTap: (index) {
+                      _onItemTapped(index);
+                    },
+                    items: [
+                      /// Home
+                      SalomonBottomBarItem(
+                        icon: Icon(Icons.home_rounded),
+                        title: Text("Home"),
+                        selectedColor: Theme.of(context).accentColor,
+                      ),
 
-                        SalomonBottomBarItem(
-                          icon: Icon(Icons.trending_up_rounded),
-                          title: Text("Spotify Charts"),
-                          selectedColor: Theme.of(context).accentColor,
-                        ),
-                        SalomonBottomBarItem(
-                          icon: Icon(MdiIcons.youtube),
-                          title: Text("YouTube"),
-                          selectedColor: Theme.of(context).accentColor,
-                        ),
-                        SalomonBottomBarItem(
-                          icon: Icon(Icons.my_library_music_rounded),
-                          title: Text("Library"),
-                          selectedColor: Theme.of(context).accentColor,
-                        ),
-                      ],
-                    ),
+                      SalomonBottomBarItem(
+                        icon: Icon(Icons.trending_up_rounded),
+                        title: Text("Spotify Charts"),
+                        selectedColor: Theme.of(context).accentColor,
+                      ),
+                      SalomonBottomBarItem(
+                        icon: Icon(MdiIcons.youtube),
+                        title: Text("YouTube"),
+                        selectedColor: Theme.of(context).accentColor,
+                      ),
+                      SalomonBottomBarItem(
+                        icon: Icon(Icons.my_library_music_rounded),
+                        title: Text("Library"),
+                        selectedColor: Theme.of(context).accentColor,
+                      ),
+                    ],
                   ),
                 );
               })),
