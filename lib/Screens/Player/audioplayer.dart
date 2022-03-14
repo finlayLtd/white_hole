@@ -78,20 +78,20 @@ class PlayScreen extends StatefulWidget {
 
 class _PlayScreenState extends State<PlayScreen> {
   bool fromMiniplayer = false;
-  String preferredQuality = Hive.box('settings')
+  final String preferredQuality = Hive.box('settings')
       .get('streamingQuality', defaultValue: '96 kbps')
       .toString();
-  String repeatMode =
+  final String repeatMode =
       Hive.box('settings').get('repeatMode', defaultValue: 'None').toString();
-  bool enforceRepeat =
+  final bool enforceRepeat =
       Hive.box('settings').get('enforceRepeat', defaultValue: false) as bool;
-  bool useImageColor =
+  final bool useImageColor =
       Hive.box('settings').get('useImageColor', defaultValue: true) as bool;
-  bool getLyricsOnline =
+  final bool getLyricsOnline =
       Hive.box('settings').get('getLyricsOnline', defaultValue: true) as bool;
-  bool useFullScreenGradient = Hive.box('settings')
+  final bool useFullScreenGradient = Hive.box('settings')
       .get('useFullScreenGradient', defaultValue: false) as bool;
-  bool useDominantAndDarkerColors = Hive.box('settings')
+  final bool useDominantAndDarkerColors = Hive.box('settings')
       .get('useDominantAndDarkerColors', defaultValue: false) as bool;
   List<MediaItem> globalQueue = [];
   int globalIndex = 0;
@@ -412,21 +412,19 @@ class _PlayScreenState extends State<PlayScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: details.keys.map((e) {
-                                  return SelectableText.rich(
-                                    TextSpan(
+                                  return RichText(
+                                    text: TextSpan(
+                                      text: format(
+                                        e.toString(),
+                                      ),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1!
+                                            .color,
+                                      ),
                                       children: <TextSpan>[
-                                        TextSpan(
-                                          text: format(
-                                            e.toString(),
-                                          ),
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color,
-                                          ),
-                                        ),
                                         TextSpan(
                                           text: details[e].toString(),
                                           style: const TextStyle(
@@ -435,9 +433,6 @@ class _PlayScreenState extends State<PlayScreen> {
                                         ),
                                       ],
                                     ),
-                                    showCursor: true,
-                                    cursorColor: Colors.black,
-                                    cursorRadius: const Radius.circular(5),
                                   );
                                 }).toList(),
                               ),
@@ -741,7 +736,6 @@ class _PlayScreenState extends State<PlayScreen> {
                             height: constraints.maxHeight,
                             panelController: _panelController,
                             audioHandler: audioHandler,
-                            gradientColor: gradientColor.value,
                           ),
                         ],
                       );
@@ -767,7 +761,6 @@ class _PlayScreenState extends State<PlayScreen> {
                               (constraints.maxWidth * 0.85),
                           panelController: _panelController,
                           audioHandler: audioHandler,
-                          gradientColor: gradientColor.value,
                         ),
                       ],
                     );
@@ -1739,7 +1732,7 @@ class NameNControls extends StatelessWidget {
   final bool offline;
   final double width;
   final double height;
-  final List<Color?>? gradientColor;
+  // final List<Color?>? gradientColor;
   final PanelController panelController;
   final AudioPlayerHandler audioHandler;
 
@@ -1747,7 +1740,7 @@ class NameNControls extends StatelessWidget {
     required this.width,
     required this.height,
     required this.mediaItem,
-    required this.gradientColor,
+    // required this.gradientColor,
     required this.audioHandler,
     required this.panelController,
     this.offline = false,
@@ -1782,8 +1775,8 @@ class NameNControls extends StatelessWidget {
                 : height * 0.3);
     final double nowplayingBoxHeight =
         height > 500 ? height * 0.4 : height * 0.15;
-    // final bool useBlurForNowPlaying = Hive.box('settings')
-    //     .get('useBlurForNowPlaying', defaultValue: true) as bool;
+    final bool useFullScreenGradient = Hive.box('settings')
+        .get('useFullScreenGradient', defaultValue: false) as bool;
     return SizedBox(
       width: width,
       height: height,
@@ -2082,15 +2075,17 @@ class NameNControls extends StatelessWidget {
             margin: EdgeInsets.zero,
             padding: EdgeInsets.zero,
             boxShadow: const [],
-            color: Colors.transparent,
-            // gradientColor?[1]?.withOpacity(1.0) ??
-            //     // useBlurForNowPlaying
-            //     //     ? Theme.of(context).brightness == Brightness.dark
-            //     Colors.black.withOpacity(0.2),
-            //     : Colors.white.withOpacity(0.7)
+            color: useFullScreenGradient
+                ? const Color.fromRGBO(0, 0, 0, 0.05)
+                : const Color.fromRGBO(0, 0, 0, 0.5),
+            // gradientColor![1]!.withOpacity(0.5),
+            // useBlurForNowPlaying
+            // ? Theme.of(context).brightness == Brightness.dark
+            // Colors.black.withOpacity(0.2),
+            // : Colors.white.withOpacity(0.7)
             // : Theme.of(context).brightness == Brightness.dark
-            //     ? Colors.black
-            //     : Colors.white,
+            // ? Colors.black
+            // : Colors.white,
             controller: panelController,
             panelBuilder: (ScrollController scrollController) {
               return ClipRRect(
@@ -2100,8 +2095,8 @@ class NameNControls extends StatelessWidget {
                 ),
                 child: BackdropFilter(
                   filter: ui.ImageFilter.blur(
-                    sigmaX: 5.0,
-                    sigmaY: 5.0,
+                    sigmaX: 8.0,
+                    sigmaY: 8.0,
                   ),
                   child: ShaderMask(
                     shaderCallback: (rect) {
