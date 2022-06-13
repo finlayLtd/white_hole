@@ -660,7 +660,5 @@
   "playerScreenBackgroundSub": "Der ausgewählte Hintergrund wird im Player-Bildschirm angezeigt",
   "@playerScreenBackgroundSub": {},
   "topCharts": "Top-Charts",
-  "@topCharts": {},
-  "playRadio": "Radio abspielen",
-  "@playRadio": {}
+  "@topCharts": {}
 }

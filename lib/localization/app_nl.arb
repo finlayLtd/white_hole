@@ -658,7 +658,5 @@
   "importJioSaavn": "Importeren uit JioSaavn",
   "@importJioSaavn": {},
   "topCharts": "Hitlijsten",
-  "@topCharts": {},
-  "playRadio": "Beluisteren",
-  "@playRadio": {}
+  "@topCharts": {}
 }
